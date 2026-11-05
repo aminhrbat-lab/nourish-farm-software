@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Management</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f4f6f8; }
+    .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+    input, select, button { padding: 10px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+    button { background: #2980b9; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    th { background: #ecf0f1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>👥 Add New User</h2>
+    <form action="/admin/users/add" method="POST">
+      <input type="text" name="employeeId" placeholder="Login ID (e.g. Emp ID or Admin)" required />
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <select name="role" required>
+        <option value="Admin">Admin</option>
+        <option value="Farm Incharge">Farm Incharge</option>
+        <option value="Farm Store Incharge">Farm Store Incharge</option>
+        <option value="General Employee">General Employee</option>
+      </select>
+      <input type="text" name="farmCC" placeholder="Farm CC (Only for Incharge)" />
+      <button type="submit">Create User</button>
+    </form>
+
+    <h2 style="margin-top: 40px;">📋 Existing Users</h2>
+    <table>
+      <tr><th>ID</th><th>Name</th><th>Role</th><th>Farm CC</th></tr>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.employeeId %></td>
+          <td><%= u.name %></td>
+          <td><%= u.role %></td>
+          <td><%= u.farmCC || '-' %></td>
+        </tr>
+      <% }); %>
+    </table>
+    <br>
+    <a href="/">Back to Home</a> | <a href="/logout">Logout</a>
+  </div>
+</body>
+</html>

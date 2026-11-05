@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Transfer History</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; font-size: 14px; }
+    th { background: #ecf0f1; }
+    .btn { background: #27ae60; color: white; text-decoration: none; padding: 8px 14px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header><h1>🔁 Transfer List</h1></header>
+  <nav><a href="/">Home</a><a href="/active">Active</a><a href="/inactive">Inactive</a><a href="/absent">Absent</a></nav>
+  <div class="container">
+    <a class="btn" href="/transfer/download">📥 Download Excel</a>
+    <table>
+      <tr>
+        <th>Employee ID</th><th>Name</th><th>Transfer Date</th>
+        <th>Farm Name</th><th>Farm CC</th><th>Designation</th><th>Department</th>
+      </tr>
+      <% list.forEach(t => { %>
+        <tr>
+          <td><%= t.employeeId %></td>
+          <td><%= t.employeeName %></td>
+          <td><%= t.transferDate %></td>
+          <td><%= t.farmName %></td>
+          <td><%= t.farmCC %></td>
+          <td><%= t.designation %></td>
+          <td><%= t.department %></td>
+        </tr>
+      <% }); %>
+    </table>
+    <p>Total Transfers: <%= list.length %></p>
+  </div>
+</body>
+</html>

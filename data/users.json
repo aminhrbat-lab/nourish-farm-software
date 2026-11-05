@@ -1,0 +1,42 @@
+[
+  {
+    "_id": "u1",
+    "employeeId": "admin",
+    "name": "Super Admin",
+    "password": "$2b$10$WL8FMF4as9aziKfd69iqFO/7ihJ0TU4Pqfi18mC6Iw.I1i8rR/8BS",
+    "role": "Admin",
+    "farmCC": ""
+  },
+  {
+    "_id": "u_1793882370367",
+    "employeeId": "1278",
+    "name": "Abdullah Al Amin",
+    "password": "$2b$10$B/htY2bdzuMjWGJME4NaOe/ZOy.cV4oMFwcRP7Pb2tpepjizX22A.",
+    "role": "Admin",
+    "farmCC": ""
+  },
+  {
+    "_id": "u_1793882405080",
+    "employeeId": "5557",
+    "name": "Md. Arifuzzaman habib",
+    "password": "$2b$10$gN2yMD0y8z8p1Majtha9u.DG3zznhMPHCn4g3sSBY1ZhnX2ECA7eq",
+    "role": "Farm Incharge",
+    "farmCC": "58"
+  },
+  {
+    "_id": "u_1793882518141",
+    "employeeId": "5674",
+    "name": "Md. Mushfiqur Rahman Himel",
+    "password": "$2b$10$VoSVUmPi6s0Yh4WRr4jB6OZQlj6Zxap/wMooGzC0DPmy4ZGWaezpe",
+    "role": "Farm Incharge",
+    "farmCC": "E2"
+  },
+  {
+    "_id": "u_1793882576416",
+    "employeeId": "5474",
+    "name": "S M Ashiqur Rahman",
+    "password": "$2b$10$Ls0MDrQ82ZbiMxAd9V9IduURPihCdHZnj0XhDpD63xsSplKXcNW7G",
+    "role": "Farm Incharge",
+    "farmCC": "L1"
+  }
+]

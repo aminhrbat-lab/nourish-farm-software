@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leave Applications</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 15px; text-decoration: none; font-size: 14px; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+    th { background: #2c3e50; color: white; }
+    .btn { padding: 5px 10px; color: white; background: #2980b9; text-decoration: none; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <header><h1>🚜 Nourish Farm Management</h1></header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/leave/dashboard">Leave Dashboard</a>
+    <a href="/leave/policy">Leave Policy</a>
+    <a href="/leave/history">Employee Leave History</a>
+    <a href="/leave/apply">Apply for Leave</a>
+    <a href="/leave/applications">Leave Applications</a>
+  </nav>
+  <div class="container">
+    <h2>📄 All Leave Applications</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>App ID</th><th>Date</th><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>PDF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% list.forEach(a => { %>
+          <tr>
+            <td><%= a._id %></td>
+            <td><%= new Date(a.applicationDate).toLocaleDateString('en-GB') %></td>
+            <td><%= a.employeeName %></td>
+            <td><%= a.leaveType %></td>
+            <td><%= new Date(a.fromDate).toLocaleDateString('en-GB') %></td>
+            <td><%= new Date(a.toDate).toLocaleDateString('en-GB') %></td>
+            <td><%= a.totalDays %></td>
+            <td><%= a.status %></td>
+            <td><a class="btn" href="/leave/download/<%= a._id %>">Download</a></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

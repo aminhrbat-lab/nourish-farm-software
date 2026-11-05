@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absent Employees</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; font-size: 14px; }
+    th { background: #ecf0f1; }
+  </style>
+</head>
+<body>
+  <header><h1>🟡 Absent Employee List</h1></header>
+  <nav><a href="/">Home</a><a href="/active">Active</a><a href="/inactive">Inactive</a><a href="/transfer">Transfer</a></nav>
+  <div class="container">
+    <table>
+      <tr>
+        <th>Employee ID</th><th>Name</th><th>Designation</th><th>Department</th>
+        <th>Farm Name</th><th>Status</th><th>From</th><th>To</th>
+      </tr>
+      <% list.forEach(e => { %>
+        <tr>
+          <td><%= e.employeeId %></td>
+          <td><%= e.employeeName %></td>
+          <td><%= e.designation %></td>
+          <td><%= e.department %></td>
+          <td><%= e.farmName %></td>
+          <td><%= e.currentStatus %></td>
+          <td><%= e.absentFrom || '-' %></td>
+          <td><%= e.absentTillNow ? 'Till Now' : (e.absentTo || '-') %></td>
+        </tr>
+      <% }); %>
+    </table>
+    <p>Total: <%= list.length %></p>
+  </div>
+</body>
+</html>

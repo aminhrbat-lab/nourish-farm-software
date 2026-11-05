@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inactive Employees</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; font-size: 14px; }
+    th { background: #ecf0f1; }
+    input, button { padding: 7px; }
+    .btn { background: #27ae60; color: white; text-decoration: none; padding: 8px 14px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header><h1>🔴 Inactive Employee List</h1></header>
+  <nav><a href="/">Home</a><a href="/active">Active</a><a href="/absent">Absent</a><a href="/transfer">Transfer</a></nav>
+  <div class="container">
+    <form method="GET" action="/inactive/download">
+      <label>Select Month:</label>
+      <input type="month" name="month" value="<%= month %>" />
+      <button type="submit">📥 Download Excel</button>
+    </form>
+
+    <table>
+      <tr>
+        <th>Employee ID</th><th>Name</th><th>Designation</th><th>Department</th>
+        <th>Farm CC</th><th>Farm Name</th><th>Inactive Date</th>
+      </tr>
+      <% list.forEach(e => { %>
+        <tr>
+          <td><%= e.employeeId %></td>
+          <td><%= e.employeeName %></td>
+          <td><%= e.designation %></td>
+          <td><%= e.department %></td>
+          <td><%= e.farmCC %></td>
+          <td><%= e.farmName %></td>
+          <td><%= e.inactiveDate || '-' %></td>
+        </tr>
+      <% }); %>
+    </table>
+    <p>Total: <%= list.length %></p>
+  </div>
+</body>
+</html>

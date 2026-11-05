@@ -1,0 +1,21 @@
+<div class="card" style="background: var(--primary-grad); color: white; border: none;">
+  <h2 style="font-size: 24px; margin-bottom: 10px;">Welcome back, <%= user.name %>!</h2>
+  <p style="opacity: 0.9;">Nourish Farm Management System - Valuka Zone</p>
+</div>
+
+<div class="card">
+  <h3 style="margin-bottom: 15px; font-size: 18px;">🔍 Search Employee</h3>
+  <form action="/search" method="GET" style="display: flex; gap: 10px; margin-bottom: 20px;">
+    <input type="text" name="q" placeholder="Enter Employee ID or Name" required style="flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px;" />
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  <% if(user.role === 'Admin') { %>
+    <hr style="border: 0; border-top: 1px dashed var(--border); margin: 20px 0;">
+    <h3 style="margin-bottom: 15px; font-size: 18px;">📤 Upload Employee Excel File</h3>
+    <form action="/upload" method="POST" enctype="multipart/form-data" style="display: flex; gap: 10px; align-items: center;">
+      <input type="file" name="excelFile" required style="padding: 8px; border: 1px solid var(--border); border-radius: 8px;" />
+      <button type="submit" class="btn btn-primary">Upload Data</button>
+    </form>
+  <% } %>
+</div>

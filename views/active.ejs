@@ -1,0 +1,41 @@
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2 style="font-size: 20px; font-weight: 600; color: var(--text-dark);">Active Employee List</h2>
+    <form method="GET" style="display: flex; gap: 10px;">
+      <select name="farm" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; font-family: 'Inter';">
+        <option value="">-- All Farms --</option>
+        <% farms.forEach(f => { %>
+          <option value="<%= f %>" <%= selectedFarm===f?'selected':'' %>><%= f %></option>
+        <% }); %>
+      </select>
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+  </div>
+
+  <p style="color: var(--text-muted); margin-bottom: 15px;">Total: <%= list.length %> employee(s)</p>
+
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background: var(--bg-color); border-bottom: 1px solid var(--border);">
+          <th style="padding: 12px; text-align: left; font-size: 13px; color: var(--text-muted);">Employee ID</th>
+          <th style="padding: 12px; text-align: left; font-size: 13px; color: var(--text-muted);">Name</th>
+          <th style="padding: 12px; text-align: left; font-size: 13px; color: var(--text-muted);">Designation</th>
+          <th style="padding: 12px; text-align: left; font-size: 13px; color: var(--text-muted);">Department</th>
+          <th style="padding: 12px; text-align: left; font-size: 13px; color: var(--text-muted);">Farm Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% list.forEach(e => { %>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px; font-weight: 500;"><%= e.employeeId %></td>
+            <td style="padding: 12px; font-weight: 600; color: var(--primary);"><%= e.employeeName %></td>
+            <td style="padding: 12px;"><%= e.designation %></td>
+            <td style="padding: 12px;"><%= e.department %></td>
+            <td style="padding: 12px;"><%= e.farmName %> (<%= e.farmCC %>)</td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

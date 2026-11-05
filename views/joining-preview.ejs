@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Joining Letter Preview</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    .container { max-width: 800px; margin: 30px auto; padding: 40px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .btn { padding: 10px 20px; color: white; text-decoration: none; border-radius: 4px; cursor: pointer; border: none; font-size: 16px; margin-right: 10px; display: inline-block; }
+    .btn-download { background: #2980b9; }
+    .btn-save { background: #27ae60; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { border: 1px solid #000; padding: 10px; text-align: left; }
+    th { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <header><h1>🚜 Joining Letter Preview</h1></header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/joining">Joining Form</a>
+    <a href="/monthly-joining">Monthly New Joining</a>
+    <a href="/active">Active Employees</a>
+  </nav>
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2>NOURISH POULTRY & HATCHERY LTD.</h2>
+      <h3><u>EMPLOYEE JOINING LETTER</u></h3>
+    </div>
+
+    <p style="text-align: right;">Date: <%= new Date().toLocaleDateString('en-GB') %></p>
+
+    <p>
+      To<br>
+      The Head of Human Resources<br>
+      Nourish Poultry & Hatchery Ltd.
+    </p>
+
+    <p><b>Subject: Joining Letter</b></p>
+
+    <p>Dear Sir,</p>
+    <p>With due respect, I would like to inform you that I have joined Nourish Poultry & Hatchery Ltd. as per the following details:</p>
+
+    <table>
+      <tr><th>Particulars</th><th>Information</th></tr>
+      <tr><td>Employee Name</td><td><%= data.employeeName %></td></tr>
+      <tr><td>Designation</td><td><%= data.designation %></td></tr>
+      <tr><td>Department</td><td><%= data.department %></td></tr>
+      <tr><td>Joining Date</td><td><%= data.joiningDate %></td></tr>
+      <tr><td>Farm Name</td><td><%= data.farmName %></td></tr>
+      <tr><td>Farm CC</td><td><%= data.farmCC %></td></tr>
+    </table>
+
+    <p>I hereby confirm that I have joined my assigned position on the above-mentioned date and agree to perform my duties and responsibilities with sincerity, dedication, and in accordance with the organization's rules, regulations, and policies.</p>
+    <p>I kindly request you to accept my joining report and take the necessary steps to complete the joining formalities.</p>
+    <p>Thank you.</p>
+
+    <p>Sincerely,</p>
+    <br><br>
+    <p>Employee Signature: __________________</p>
+    <p>Employee Name: <%= data.employeeName %></p>
+    <p>Date: ______________________________</p>
+
+    <hr style="margin: 30px 0;">
+    
+    <div style="text-align: center;">
+      <a class="btn btn-download" href="/joining/download?employeeName=<%= encodeURIComponent(data.employeeName) %>&designation=<%= encodeURIComponent(data.designation) %>&department=<%= encodeURIComponent(data.department) %>&joiningDate=<%= encodeURIComponent(data.joiningDate) %>&farmName=<%= encodeURIComponent(data.farmName) %>&farmCC=<%= encodeURIComponent(data.farmCC) %>">📥 Download PDF</a>
+
+      <form action="/joining/save" method="POST" style="display: inline;">
+        <input type="hidden" name="employeeName" value="<%= data.employeeName %>" />
+        <input type="hidden" name="designation" value="<%= data.designation %>" />
+        <input type="hidden" name="department" value="<%= data.department %>" />
+        <input type="hidden" name="joiningDate" value="<%= data.joiningDate %>" />
+        <input type="hidden" name="farmName" value="<%= data.farmName %>" />
+        <input type="hidden" name="farmCC" value="<%= data.farmCC %>" />
+        <button type="submit" class="btn btn-save">✅ Save Joining Record</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

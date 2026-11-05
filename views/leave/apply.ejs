@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Apply for Leave</title>
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 15px; text-decoration: none; font-size: 14px; }
+    .container { max-width: 700px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    input, select, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; }
+    button { background: #27ae60; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    .ts-control { padding: 10px !important; border-radius: 4px !important; border: 1px solid #ccc !important; }
+    .bal-info { background: #f9f9f9; padding: 15px; border-left: 4px solid #3498db; margin-top: 15px; display: none; }
+  </style>
+</head>
+<body>
+  <header><h1>🚜 Nourish Farm Management</h1></header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/leave/dashboard">Leave Dashboard</a>
+    <a href="/leave/policy">Leave Policy</a>
+    <a href="/leave/history">Employee Leave History</a>
+    <a href="/leave/apply">Apply for Leave</a>
+    <a href="/leave/applications">Leave Applications</a>
+  </nav>
+  <div class="container">
+    <h2>📝 Apply for Leave</h2>
+    
+    <label>Search Employee (Type ID or Name)</label>
+    <input type="text" id="empSearch" placeholder="Type Employee ID or Name..." />
+    <input type="hidden" id="employeeId" />
+
+    <div id="empInfo" class="bal-info">
+      <strong>Employee Found:</strong> <span id="empName"></span> | <span id="empDesig"></span> | <span id="empFarm"></span>
+    </div>
+
+    <form action="/leave/apply/submit" method="POST" id="leaveForm">
+      <input type="hidden" name="employeeId" id="formEmpId" />
+      <input type="hidden" name="employeeName" id="formEmpName" />
+
+      <label>Leave Type</label>
+      <select id="leaveTypeSelect" name="leaveType" required onchange="updateBalance()">
+        <option value="">-- Select Leave Type --</option>
+        <% leaveTypes.forEach(lt => { %>
+          <option value="<%= lt %>"><%= lt %></option>
+        <% }); %>
+      </select>
+
+      <label>From Date</label>
+      <input type="date" name="fromDate" id="fromDate" required onchange="updateBalance()" />
+
+      <label>To Date</label>
+      <input type="date" name="toDate" id="toDate" required onchange="updateBalance()" />
+
+      <label>Assigned Person During Leave</label>
+      <input type="text" name="assignedPerson" required />
+
+      <label>Reason / Details for Leave</label>
+      <input type="text" name="reason" required />
+
+      <div id="balancePreview" style="display: none; background: #e8f8f5; padding: 15px; border-radius: 5px; margin-top: 15px;">
+        <h4 style="margin-top:0;">Balance Preview</h4>
+        <p>Existing Balance: <b id="showExisting"></b></p>
+        <p>Requested Days: <b id="showRequested"></b></p>
+        <p>Projected Balance: <b id="showProjected"></b></p>
+        <input type="hidden" name="totalDays" id="formTotalDays" />
+        <input type="hidden" name="balanceBefore" id="formBalBefore" />
+      </div>
+
+      <button type="submit">Submit Leave Application</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+  <script>
+    // Employee search logic
+    let employeeData = null;
+    let currentBalances = {};
+
+    document.getElementById('empSearch').addEventListener('input', async function() {
+      const q = this.value.trim();
+      if(q.length < 3) return;
+      
+      // Fetch from our API
+      try {
+        const res = await fetch('/api/employee/' + encodeURIComponent(q));
+        const data = await res.json();
+        
+        if(data.error) {
+          document.getElementById('empInfo').style.display = 'none';
+        } else {
+          employeeData = data.employee;
+          currentBalances = data.balances;
+          document.getElementById('empInfo').style.display = 'block';
+          document.getElementById('empName').innerText = employeeData.employeeName;
+          document.getElementById('empDesig').innerText = employeeData.designation;
+          document.getElementById('empFarm').innerText = employeeData.farmName;
+          document.getElementById('formEmpId').value = employeeData.employeeId || employeeData._id;
+          document.getElementById('formEmpName').value = employeeData.employeeName;
+          updateBalance();
+        }
+      } catch(e) {
+        console.log(e);
+      }
+    });
+
+    function updateBalance() {
+      if(!employeeData) return;
+      const lt = document.getElementById('leaveTypeSelect').value;
+      const from = document.getElementById('fromDate').value;
+      const to = document.getElementById('toDate').value;
+
+      if(lt && from && to) {
+        const start = new Date(from);
+        const end = new Date(to);
+        if(end < start) {
+          alert("To date cannot be before From date");
+          return;
+        }
+        const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        const existing = currentBalances[lt] ? currentBalances[lt].remaining : 0;
+        const projected = existing - totalDays;
+
+        document.getElementById('balancePreview').style.display = 'block';
+        document.getElementById('showExisting').innerText = existing;
+        document.getElementById('showRequested').innerText = totalDays;
+        document.getElementById('showProjected').innerText = projected;
+        
+        document.getElementById('formTotalDays').value = totalDays;
+        document.getElementById('formBalBefore').value = existing;
+      }
+    }
+  </script>
+</body>
+</html>

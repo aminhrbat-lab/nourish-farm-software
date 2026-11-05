@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employee Joining Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    .container { max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    input, select, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; }
+    button { background: #27ae60; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; }
+    button:hover { background: #219150; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    .ts-control { padding: 10px !important; border-radius: 4px !important; border: 1px solid #ccc !important; }
+  </style>
+</head>
+<body>
+  <header><h1>🚜 Nourish Farm Management</h1></header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/joining">Joining Form</a>
+    <a href="/monthly-joining">Monthly New Joining</a>
+    <a href="/active">Active Employees</a>
+  </nav>
+  <div class="container">
+    <h2>📝 Employee Joining Form</h2>
+    <form action="/joining/preview" method="POST">
+      
+      <label>Employee Name</label>
+      <input type="text" name="employeeName" required />
+
+      <label>Designation (Type to search)</label>
+      <select id="designationSelect" name="designation" required>
+        <option value="">-- Select Designation --</option>
+        <% designations.forEach(d => { %>
+          <option value="<%= d %>"><%= d %></option>
+        <% }); %>
+      </select>
+
+      <label>Department (Type to search)</label>
+      <select id="departmentSelect" name="department" required>
+        <option value="">-- Select Department --</option>
+        <% departments.forEach(d => { %>
+          <option value="<%= d %>"><%= d %></option>
+        <% }); %>
+      </select>
+
+      <label>Joining Date</label>
+      <input type="date" name="joiningDate" required />
+
+      <label>Farm Name (Type to search)</label>
+      <!-- Ekhane data-cc add kora hoyeche jate CC track kora jay -->
+      <select id="farmNameSelect" name="farmName" required>
+        <option value="">-- Select Farm Name --</option>
+        <% farms.forEach(f => { %>
+          <option value="<%= f %>" data-cc="<%= farmCCs.includes(f) ? f : '' %>"><%= f %></option>
+        <% }); %>
+      </select>
+
+      <label>Farm CC</label>
+      <select id="farmCCSelect" name="farmCC" required>
+        <option value="">-- Select Farm CC --</option>
+        <% farmCCs.forEach(c => { %>
+          <option value="<%= c %>"><%= c %></option>
+        <% }); %>
+      </select>
+
+      <button type="submit">Generate Joining Letter</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+  <script>
+    new TomSelect("#designationSelect", { create: true, sortField: { field: "text", direction: "asc" } });
+    new TomSelect("#departmentSelect", { create: true, sortField: { field: "text", direction: "asc" } });
+    new TomSelect("#farmCCSelect", { create: true, sortField: { field: "text", direction: "asc" } });
+
+    // Farm Name change hole Farm CC auto select howar logic
+    var farmSelect = new TomSelect("#farmNameSelect", { 
+        create: true, 
+        sortField: { field: "text", direction: "asc" },
+        onChange: function(value) {
+            // Jodi user manual kichu type na kore dropdown theke select kore
+            if(value) {
+                // Database theke amra matching CC khuje ber korbo
+                // Note: Amra server theke mapping pathacchi na, tai ekhane ekta trick use korchi.
+                // Farm Name er sathe jodi CC mile, tobe seta set kore dibe.
+                var selectedOption = document.querySelector('#farmNameSelect option[value="'+value+'"]');
+                if (selectedOption) {
+                    var ccValue = selectedOption.getAttribute('data-cc');
+                    if (ccValue) {
+                        var ccSelect = document.getElementById('farmCCSelect').tomselect;
+                        ccSelect.setValue(ccValue, true); // true mane silent update
+                    }
+                }
+            }
+        }
+    });
+  </script>
+</body>
+</html>

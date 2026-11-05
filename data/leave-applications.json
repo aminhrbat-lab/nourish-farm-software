@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "APP-1793843335560",
+    "employeeId": "1278",
+    "employeeName": "ABDULLAH AL AMIN",
+    "leaveType": "Medical Leave",
+    "fromDate": "2026-11-11",
+    "toDate": "2026-11-19",
+    "totalDays": 9,
+    "reason": "Dengue Fever",
+    "assignedPerson": "Tabein Khan",
+    "balanceBefore": 14,
+    "balanceAfter": 5,
+    "status": "Submitted",
+    "applicationDate": "2026-11-05T01:48:55.561Z"
+  },
+  {
+    "_id": "APP-1793844309399",
+    "employeeId": "1326",
+    "employeeName": "MOHAMMAD IFTEKHAR HOSSAIN",
+    "leaveType": "Medical Leave",
+    "fromDate": "2026-09-26",
+    "toDate": "2026-10-15",
+    "totalDays": 20,
+    "reason": "India visit",
+    "assignedPerson": "Imam Hossain",
+    "balanceBefore": 14,
+    "balanceAfter": -6,
+    "status": "Submitted",
+    "applicationDate": "2026-11-05T02:05:09.399Z"
+  },
+  {
+    "_id": "APP-1793881322831",
+    "employeeId": "1326",
+    "employeeName": "MOHAMMAD IFTEKHAR HOSSAIN",
+    "leaveType": "Project Casual Leave",
+    "fromDate": "2026-10-04",
+    "toDate": "2026-11-18",
+    "totalDays": 46,
+    "reason": "Treatment at India",
+    "assignedPerson": "Imam Hossain",
+    "balanceBefore": 48,
+    "balanceAfter": 2,
+    "status": "Submitted",
+    "applicationDate": "2026-11-05T12:22:02.831Z"
+  },
+  {
+    "_id": "APP-1793886924515",
+    "employeeId": "",
+    "employeeName": "",
+    "leaveType": "Casual Leave",
+    "fromDate": "2026-11-02",
+    "toDate": "2026-11-05",
+    "totalDays": 0,
+    "reason": "Sickness",
+    "assignedPerson": "Kuddus",
+    "balanceBefore": 0,
+    "balanceAfter": 0,
+    "status": "Submitted",
+    "applicationDate": "2026-11-05T13:55:24.515Z"
+  }
+]

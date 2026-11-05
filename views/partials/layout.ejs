@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nourish Farm Management - Valuka Zone</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #087A45;
+      --primary-grad: linear-gradient(135deg, #087A45 0%, #10A66A 100%);
+      --deep-green: #075B35;
+      --deep-grad: linear-gradient(135deg, #064E35 0%, #087A45 100%);
+      --emerald: #10A66A;
+      --light-green: #E9F7EF;
+      --bg-color: #F4F8F5;
+      --text-dark: #183329;
+      --text-muted: #718078;
+      --border: #E1EBE4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    
+    body { 
+      background-color: var(--bg-color); 
+      color: var(--text-dark);
+      background-image: url('https://drive.google.com/thumbnail?id=1_jXrw-fzIZG46YSGZexWUeirGTrm4r2t&sz=w1000');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      overflow-x: hidden;
+    }
+
+    /* Watermark Opacity Control */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(244, 248, 245, 0.94); 
+      z-index: -1;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      width: 260px;
+      background: white;
+      border-right: 1px solid var(--border);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar.collapsed { width: 80px; }
+    .sidebar.collapsed .menu-text, .sidebar.collapsed .brand-text { display: none; }
+
+    .brand-area {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-area img { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; }
+    .brand-text h2 { font-size: 16px; color: var(--primary); font-weight: 700; line-height: 1.2; }
+    .brand-text p { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 1px; }
+
+    .menu-list { list-style: none; padding: 15px 10px; overflow-y: auto; flex: 1; }
+    .menu-item { margin-bottom: 4px; }
+    .menu-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 15px; border-radius: 8px;
+      color: var(--text-muted); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .menu-link:hover, .menu-link.active {
+      background: var(--light-green);
+      color: var(--primary);
+    }
+    .menu-link.active { font-weight: 600; }
+    .menu-link svg { width: 20px; height: 20px; }
+
+    /* --- HEADER --- */
+    .main-content {
+      margin-left: 260px;
+      transition: all 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .main-content.expanded { margin-left: 80px; }
+
+    .top-header {
+      background: white;
+      height: 70px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      position: sticky; top: 0; z-index: 900;
+    }
+    .header-left { display: flex; align-items: center; gap: 15px; }
+    .toggle-btn { background: none; border: none; cursor: pointer; color: var(--text-dark); }
+    .page-title { font-size: 18px; font-weight: 600; }
+    
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .user-profile { display: flex; align-items: center; gap: 10px; }
+    .user-avatar { width: 35px; height: 35px; background: var(--primary-grad); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .user-info { font-size: 13px; line-height: 1.2; text-align: right; }
+    .user-info b { display: block; color: var(--text-dark); }
+    .user-info span { color: var(--text-muted); font-size: 11px; }
+    .logout-btn { color: #e74c3c; text-decoration: none; display: flex; align-items: center; }
+
+    /* --- MAIN BODY --- */
+    .content-area { padding: 30px; flex: 1; }
+    
+    /* --- PREMIUM CARDS --- */
+    .card { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    
+    .btn {
+      padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary-grad); color: white; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.mobile-open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .main-content.expanded { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-area">
+      <img src="https://drive.google.com/thumbnail?id=11cZ9XubuEhk-jwMg07F5ydAMzAHiL1kO&sz=w500" alt="Nourish Logo">
+      <div class="brand-text">
+        <h2>Nourish Farm</h2>
+        <p>VALUKA ZONE</p>
+      </div>
+    </div>
+
+    <ul class="menu-list">
+      <li class="menu-item">
+        <a href="/" class="menu-link <%= currentPath === '/' ? 'active' : '' %>">
+          <i data-lucide="layout-dashboard"></i> <span class="menu-text">Dashboard</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/active" class="menu-link <%= currentPath === '/active' ? 'active' : '' %>">
+          <i data-lucide="users"></i> <span class="menu-text">Active Employees</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/inactive" class="menu-link <%= currentPath === '/inactive' ? 'active' : '' %>">
+          <i data-lucide="user-minus"></i> <span class="menu-text">Inactive Employees</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/absent" class="menu-link <%= currentPath === '/absent' ? 'active' : '' %>">
+          <i data-lucide="user-x"></i> <span class="menu-text">Absent Employees</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/transfer" class="menu-link <%= currentPath === '/transfer' ? 'active' : '' %>">
+          <i data-lucide="arrow-right-left"></i> <span class="menu-text">Transfers</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/leave/dashboard" class="menu-link <%= currentPath.includes('/leave') ? 'active' : '' %>">
+          <i data-lucide="calendar"></i> <span class="menu-text">Leave Database</span>
+        </a>
+      </li>
+      
+      <% if(user && (user.role === 'Admin' || user.role === 'Farm Incharge' || user.role === 'Farm Store Incharge')) { %>
+      <li class="menu-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border);">
+        <a href="/joining" class="menu-link <%= currentPath === '/joining' ? 'active' : '' %>">
+          <i data-lucide="file-badge"></i> <span class="menu-text">Employee Joining</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/monthly-joining" class="menu-link <%= currentPath === '/monthly-joining' ? 'active' : '' %>">
+          <i data-lucide="calendar-days"></i> <span class="menu-text">Monthly Joining</span>
+        </a>
+      </li>
+      <% } %>
+
+      <% if(user && user.role === 'Admin') { %>
+      <li class="menu-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border);">
+        <a href="/admin/users" class="menu-link <%= currentPath === '/admin/users' ? 'active' : '' %>">
+          <i data-lucide="shield-check"></i> <span class="menu-text">User & Access</span>
+        </a>
+      </li>
+      <% } %>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content" id="mainContent">
+    
+    <!-- HEADER -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="page-title"><%= pageTitle || 'Dashboard' %></div>
+      </div>
+      
+      <div class="header-right">
+        <% if(user) { %>
+        <div class="user-profile">
+          <div class="user-info">
+            <b><%= user.name %></b>
+            <span><%= user.role %></span>
+          </div>
+          <div class="user-avatar"><%= user.name.charAt(0) %></div>
+        </div>
+        <a href="/logout" class="logout-btn" title="Logout"><i data-lucide="log-out"></i></a>
+        <% } %>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT INJECTION -->
+    <main class="content-area">
+      <%- body %>
+    </main>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      if (window.innerWidth <= 768) {
+        sidebar.classList.toggle('mobile-open');
+      } else {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+      }
+    }
+  </script>
+</body>
+</html>

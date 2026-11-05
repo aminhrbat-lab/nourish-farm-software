@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monthly New Joining List</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f6f8; }
+    header { background: #2c3e50; color: white; padding: 15px 30px; }
+    nav { background: #34495e; padding: 10px 30px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    .container { max-width: 1200px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; font-size: 14px; }
+    th { background: #ecf0f1; }
+    input, button { padding: 7px; }
+    .btn { background: #27ae60; color: white; text-decoration: none; padding: 8px 14px; border-radius: 4px; display: inline-block; margin-bottom: 15px; }
+    .stats-box { display: flex; gap: 20px; margin-bottom: 15px; }
+    .stat-card { background: #e8f4fd; padding: 10px; border-radius: 5px; border: 1px solid #bce0fd; }
+  </style>
+</head>
+<body>
+  <header><h1>📅 Monthly New Joining List</h1></header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/joining">Joining Form</a>
+    <a href="/monthly-joining">Monthly New Joining</a>
+    <a href="/active">Active Employees</a>
+  </nav>
+  <div class="container">
+    
+    <form method="GET" action="/monthly-joining">
+      <label>Select Month: </label>
+      <input type="month" name="month" value="<%= monthFilter %>" />
+      <button type="submit">Filter</button>
+      <a class="btn" href="/monthly-joining/download?month=<%= monthFilter %>">📥 Download Excel</a>
+    </form>
+
+    <div class="stats-box">
+      <div class="stat-card"><b>Total Joining:</b> <%= total %></div>
+    </div>
+
+    <table>
+      <tr>
+        <th>SL</th><th>Employee Name</th><th>Employee ID</th><th>Designation</th><th>Department</th>
+        <th>Joining Date</th><th>Farm Name</th><th>Farm CC</th><th>Current Status</th>
+      </tr>
+      <% list.forEach((e, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= e.employeeName %></td>
+          <td><%= e.employeeId ? e.employeeId : 'Pending' %></td>
+          <td><%= e.designation %></td>
+          <td><%= e.department %></td>
+          <td><%= e.joiningDate ? e.joiningDate.split('T')[0] : '' %></td>
+          <td><%= e.farmName %></td>
+          <td><%= e.farmCC %></td>
+          <td><%= e.currentStatus %></td>
+        </tr>
+      <% }); %>
+    </table>
+    <br>
+    <p>Total: <b><%= list.length %></b></p>
+  </div>
+</body>
+</html>

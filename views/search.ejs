@@ -1,0 +1,45 @@
+<div class="card">
+  <h2 style="font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 20px;">Search Results for "<%= query %>"</h2>
+  
+  <% if(results.length === 0) { %>
+    <p style="color: #e74c3c; background: #fdedec; padding: 10px; border-radius: 5px;">No employees found for this search.</p>
+  <% } %>
+
+  <% results.forEach(e => { %>
+    <div style="border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 20px; background: #fafcfb;">
+      
+      <form action="/update/<%= e._id %>" method="POST">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div>
+            <label style="font-size: 13px; font-weight: 600; color: var(--text-muted);">Employee ID</label>
+            <input type="text" name="employeeId" value="<%= e.employeeId || '' %>" placeholder="Pending..." style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;" />
+          </div>
+          <div>
+            <label style="font-size: 13px; font-weight: 600; color: var(--text-muted);">Employee Name</label>
+            <input type="text" name="employeeName" value="<%= e.employeeName %>" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;" />
+          </div>
+        </div>
+
+        <div style="margin: 15px 0; padding: 10px; background: var(--bg-color); border-radius: 5px; font-size: 14px;">
+          <b>Designation:</b> <%= e.designation %> | <b>Dept:</b> <%= e.department %> | <b>Farm:</b> <%= e.farmName %> (<%= e.farmCC %>)
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div>
+            <label style="font-size: 13px; font-weight: 600; color: var(--text-muted);">Current Status</label>
+            <select name="currentStatus" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+              <option value="Active" <%= e.currentStatus==='Active'?'selected':'' %>>Active</option>
+              <option value="Inactive" <%= e.currentStatus==='Inactive'?'selected':'' %>>Inactive</option>
+              <option value="Absent" <%= e.currentStatus==='Absent'?'selected':'' %>>Absent</option>
+              <option value="Transfer" <%= e.currentStatus==='Transfer'?'selected':'' %>>Transfer</option>
+            </select>
+          </div>
+          
+          <div style="display: flex; align-items: flex-end;">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;">Save Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  <% }); %>
+</div>
